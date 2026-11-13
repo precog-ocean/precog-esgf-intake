@@ -11,7 +11,7 @@ datasets.
 
 ## Features
 
-- Definition of ESGF search criteria by modifying a [`search_criteria.toml`](scripts/search_criteria.toml) configuration file.
+- Definition of ESGF search criteria by modifying a [`search_criteria.toml`](src/precog_esgf_intake/scripts/search_criteria.toml) configuration file.
 - Automated search through the ESGF catalogue using project, variable, experiment, and temporal filters (inherited 
   from [intake-esgf](https://github.com/esgf2-us/intake-esgf)).
 - Ensemble-aware screening mode for selecting one validated `piControl` anchor branch and retaining all compatible `Historical` ensemble members on the same grid.
