@@ -76,7 +76,7 @@ To get started with local development:
 
 ## Code Style and Testing
 
- - Follow the existing module structure under `scripts/` and `intake_esgf_mods/`.
+ - Follow the existing module structure under `src/precog_esgf_intake/scripts` and `src/precog_esgf_intake/scripts/intake_esgf_mods`.
  - Keep modifications to upstream `intake-esgf` functionality clearly isolated and documented.
  - Where possible, add tests for new functionality and preserve reproducibility of existing workflows.
  - If a change affects user-facing behavior, update the documentation in `README.md` and any relevant example
