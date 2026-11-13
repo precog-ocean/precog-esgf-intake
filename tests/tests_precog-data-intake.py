@@ -4,15 +4,12 @@ import io
 import sys
 import os
 import numpy as np
-from ipywidgets import Password, Datetime
-from pandas.core.interchange.dataframe_protocol import DataFrame
 
 sys.path.append(os.path.dirname(os.path.abspath(__name__)))
-from scripts.intake_UtilFuncs import print_precog_header, print_precog_footer
+from src.precog_esgf_intake.scripts.intake_UtilFuncs import print_precog_header, print_precog_footer
 #sys.path.append('../') #This shorthand makes one module visible to the other, When modules are in parallel locations
-import intake_esgf
-from intake_esgf_mods.catalog import ESGFCatalog
-from scripts.intake_UtilFuncs import *
+from precog_esgf_intake.scripts.intake_esgf_mods.catalog import ESGFCatalog
+
 
 def test_print_decorators():
     assert print_precog_footer() == None
