@@ -1,0 +1,94 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "precog-esgf-intake"
+version = "1.0.0"
+description = "Tools for discovering, accessing, and downloading ESGF climate-model datasets with Intake."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "GPL-3.0" }
+authors = [
+    { name = "Leonardo Bertini" },
+]
+
+keywords = [
+    "ESGF",
+    "CMIP6",
+    "climate",
+    "oceanography",
+    "intake",
+    "xarray",
+    "earth-system modelling",
+]
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GPL-3.0 License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+    "Topic :: Scientific/Engineering :: Oceanography",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+dependencies = [
+    "intake-esgf>=2023.10.7",
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "tqdm>=4.65",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "mypy>=1.10",
+]
+
+docs = [
+    "sphinx>=8.0",
+    "myst-parser>=4.0",
+    "furo>=2024.8.6",
+    "sphinx-autodoc-typehints>=3.0",
+    "sphinx-copybutton>=0.5",
+    "myst-nb>=1.2",
+    "sphinx-design>=0.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/precog-ocean/precog-esgf-intake"
+Documentation = "https://precog-esgf-intake.readthedocs.io/"
+Repository = "https://github.com/precog-ocean/precog-esgf-intake"
+Issues = "https://github.com/precog-ocean/precog-esgf-intake/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["precog_esgf_intake*"]
+namespaces = false
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "UP",
+    "B",
+]

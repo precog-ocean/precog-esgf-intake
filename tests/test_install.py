@@ -2,7 +2,7 @@ import sys
 import os
 import time
 sys.path.append(os.path.dirname(os.path.abspath(__name__)))
-from scripts.intake_UtilFuncs import print_precog_header, print_precog_footer
+from src.precog_esgf_intake.scripts.intake_UtilFuncs import print_precog_header, print_precog_footer
 
 print('\n')
 msg ='Behold! A nice header is about to appear . . .'

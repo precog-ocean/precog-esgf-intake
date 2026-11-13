@@ -11,7 +11,7 @@ datasets.
 
 ## Features
 
-- Definition of ESGF search criteria by modifying a [`search_criteria.toml`](scripts/search_criteria.toml) configuration file.
+- Definition of ESGF search criteria by modifying a [`search_criteria.toml`](src/precog_esgf_intake/scripts/search_criteria.toml) configuration file.
 - Automated search through the ESGF catalogue using project, variable, experiment, and temporal filters (inherited 
   from [intake-esgf](https://github.com/esgf2-us/intake-esgf)).
 - Ensemble-aware screening mode for selecting one validated `piControl` anchor branch and retaining all compatible `Historical` ensemble members on the same grid.
@@ -101,7 +101,7 @@ precog-esgf-intake/
 ```
 
 ## Workflow
-A Jupyter notebook [Workflow_Example_POCflux.ipynb](Workflow_Example_POCflux.ipynb) is provided, which demonstrates how
+A Jupyter notebook [Workflow_Example_POCflux.ipynb](notebooks/Workflow_Example_POCflux.ipynb) is provided, which demonstrates how
 to find amongst CMIP6 models those that contain both ```piControl``` and ```historical``` outputs for:
 
 ```

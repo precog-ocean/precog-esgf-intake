@@ -16,7 +16,8 @@ import datetime
 import sys
 import shlex
 import tomllib
-sys.path.append(os.path.dirname(os.path.abspath(__name__)))
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
 
 
 def print_precog_header():
