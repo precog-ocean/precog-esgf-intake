@@ -4,19 +4,18 @@ and Historical run alignment and shortlists for cases where both PI and Historic
 direct carbon export outputs (expc and epc100) or auxiliary vars (thetao, o2 and so).
 
 """
-import os
-import sys
-sys.path.append(os.path.dirname(os.path.abspath(__name__)))
+
 import intake_esgf
-from scripts.intake_UtilFuncs import *
-from intake_esgf_mods.catalog import ESGFCatalog
+from precog_esgf_intake.scripts.intake_UtilFuncs import *
+from precog_esgf_intake.scripts.intake_esgf_mods.catalog import ESGFCatalog
 import datetime
 import pandas as pd
 pd.set_option('display.width', 2000)  # pretty printing to console
 pd.set_option('display.max_columns', None)  # pretty printing to console
 from pathlib import Path
 
-
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
 
 print_precog_header()
 

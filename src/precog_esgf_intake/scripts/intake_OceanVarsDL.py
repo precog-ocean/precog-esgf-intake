@@ -7,7 +7,7 @@ Once downloaded, it checks for file integrity and re-downloads if corrupted.
 
 import os.path
 import numpy as np
-from intake_UtilFuncs import *
+from precog_esgf_intake.scripts.intake_UtilFuncs import *
 from multiprocessing.pool import ThreadPool
 import hashlib
 from pathlib import Path
@@ -16,7 +16,8 @@ import pandas as pd
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-sys.path.append(os.path.dirname(os.path.abspath(__name__)))
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
 
 def verify_hash(downloaded_file, expected_hash):
     # Calculate the hash of the downloaded file.

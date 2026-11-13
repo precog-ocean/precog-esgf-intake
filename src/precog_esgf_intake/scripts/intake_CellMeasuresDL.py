@@ -8,15 +8,16 @@ from multiprocessing.pool import ThreadPool
 import numpy as np
 import intake_esgf
 import tqdm
-from intake_UtilFuncs import *
-from intake_esgf_mods.catalog import ESGFCatalog
+from precog_esgf_intake.scripts.intake_UtilFuncs import *
+from precog_esgf_intake.scripts.intake_esgf_mods.catalog import ESGFCatalog
 pd.set_option('display.width', 2000)  # pretty printing to console
 pd.set_option('display.max_columns', None)  # pretty printing to console
 import datetime
-from intake_OceanVarsDL import download_files, calculate_hash, download_non_parallel_files
+from precog_esgf_intake.scripts.intake_OceanVarsDL import download_files, calculate_hash, download_non_parallel_files
 from pathlib import Path
 import sys
-sys.path.append(os.path.dirname(os.path.abspath(__name__)))
+SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
 
 def import_ocean_var_dataframes():
     user_path = input(
