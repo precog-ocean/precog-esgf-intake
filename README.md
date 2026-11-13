@@ -101,7 +101,7 @@ precog-esgf-intake/
 ```
 
 ## Workflow
-A Jupyter notebook [Workflow_Example_POCflux.ipynb](Workflow_Example_POCflux.ipynb) is provided, which demonstrates how
+A Jupyter notebook [Workflow_Example_POCflux.ipynb](notebooks/Workflow_Example_POCflux.ipynb) is provided, which demonstrates how
 to find amongst CMIP6 models those that contain both ```piControl``` and ```historical``` outputs for:
 
 ```
