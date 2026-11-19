@@ -32,7 +32,7 @@ datasets.
 
 ## Installation
 
-These instructions assume you have **Python 3.12+** installed and available as `python` or `python3` on your system.
+These instructions assume you have **Python 3.12+** installed and available as `python3` or `python3.12` on your system.
 
 ### 1. Clone the repository
 
@@ -44,7 +44,7 @@ cd precog-esgf-intake
 ### 2. Create a virtual environment (named `venv`)
 
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 ````
 
 Make sure your python version is >3.12.
@@ -82,7 +82,7 @@ pip install -r requirements.txt
 Make sure that you have activated the python virtual environment. Then run:
 
 ```bash 
-python3 tests/test_install.py
+python3.12 tests/test_install.py
 ```
 
 If you see the PREGOC logo followed by Hellen, the vampire squid from hell, being printed on the terminal as shown in
@@ -100,7 +100,7 @@ precog-esgf-intake/
 └─ tests/                # Unit tests for core functionality
 ```
 
-## Workflow
+## Example Workflow (self-guided)
 A Jupyter notebook [Workflow_Example_POCflux.ipynb](notebooks/Workflow_Example_POCflux.ipynb) is provided, which demonstrates how
 to find amongst CMIP6 models those that contain both ```piControl``` and ```historical``` outputs for:
 
@@ -112,3 +112,8 @@ to find amongst CMIP6 models those that contain both ```piControl``` and ```hist
 This self-guided notebook demonstrates a compound search, an exemple add-on function for screening ESGF catalogue hits,
 how to instanciate the download manager and how to automatically fetch corresponding ocean grid cell measure variables
 ```areacello``` and ```volcello``` for the selected models.
+
+## Documentation 
+
+We are actively improving the Documentation for precog-esgf-intake.
+The latest build of our documentation can be accessed at [https://precog-esgf-intake.readthedocs.io/en/latest/](https://precog-esgf-intake.readthedocs.io/en/latest/)

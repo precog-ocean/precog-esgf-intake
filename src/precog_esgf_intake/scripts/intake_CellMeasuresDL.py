@@ -278,7 +278,8 @@ def varcell_prepare_df(logger_name, variable_id):
         paths.append(path)
 
     df_downloadable['local_path'] = paths
-    save_searched_tests(df_downloadable_tested=df_downloadable, downloadpath=download_path)
+    save_searched_tests(df_downloadable_tested=df_downloadable, downloadpath=download_path,
+                        file_prefix='DF_Downloadable')
     logger1.info(f"Checks complete. Dataframe exported to {download_path}")
     logger1.info('########=END=#######\n')
 
