@@ -32,7 +32,7 @@ datasets.
 
 ## Installation
 
-These instructions assume you have **Python 3.12+** installed and available as `python` or `python3` on your system.
+These instructions assume you have **Python 3.12+** installed and available as `python3` or `python3.12` on your system.
 
 ### 1. Clone the repository
 
@@ -44,7 +44,7 @@ cd precog-esgf-intake
 ### 2. Create a virtual environment (named `venv`)
 
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 ````
 
 Make sure your python version is >3.12.
@@ -82,7 +82,7 @@ pip install -r requirements.txt
 Make sure that you have activated the python virtual environment. Then run:
 
 ```bash 
-python3 tests/test_install.py
+python3.12 tests/test_install.py
 ```
 
 If you see the PREGOC logo followed by Hellen, the vampire squid from hell, being printed on the terminal as shown in
