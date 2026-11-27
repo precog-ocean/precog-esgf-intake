@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,7 +8,8 @@ version = "1.0.0"
 description = "Tools for discovering, accessing, and downloading ESGF climate-model datasets with Intake."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "GPL-3.0" }
+license = "GPL-3.0-or-later"
+license-files = ["LICEN[CS]E*"]
 authors = [
     { name = "Leonardo Bertini" },
 ]
@@ -26,7 +27,6 @@ keywords = [
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: GPL-3.0 License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
