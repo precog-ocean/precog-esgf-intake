@@ -176,15 +176,17 @@ def find_invalid_variables(requested, allowed):
     }
 
 
-def prompt_for_variable_ids(allowed) -> list[str]:
+DEFAULT_PROMPT = (
+    "No variable_id values were provided in search_criteria.toml.\n"
+    "Please enter a list of strings for variable_id. "
+    "E.g. ['expc'] or multiple ['expc', 'o2', 'thetao'].\n"
+    "Type '?' (then Enter) to list all supported variable_ids:\n"
+)
+
+def prompt_for_variable_ids(allowed, message: str = DEFAULT_PROMPT ) -> list[str]:
     allowed = sorted(allowed)
     while True:
-        raw = input(
-            "No variable_id values were provided in search_criteria.toml.\n"
-            "Please enter a list of strings for variable_id. "
-            "E.g. ['expc'] or multiple ['expc', 'o2', 'thetao'].\n"
-            "Type '?' (then Enter) to list all supported variable_ids:\n"
-        )
+        raw = input(message)
 
         if raw.strip().lower() in {"?", "help", "list"}:
             print_variable_list(allowed)
