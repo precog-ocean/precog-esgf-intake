@@ -90,10 +90,6 @@ print("====================================================================\n")
 
 variable_ids = DefaultSearchParam["variable_id"]
 experiments_must_haves = DefaultSearchParam["experiment_id"]
-
-root_proj = os.path.dirname(os.path.abspath(__name__))
-
-variables_of_interest = import_ocean_std_names(root_proj)
 DicDataframeSearches = {'variable_names': [], 'search_results':[]} #initializing empty dic to facilitate saving data
 DicDataframePiAnchors = {'variable_names': [],'search_results': []}
 ##

@@ -16,6 +16,9 @@ import datetime
 import sys
 import shlex
 import tomllib
+import difflib
+import shutil
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
@@ -137,6 +140,99 @@ def load_search_criteria_toml(search_criteria_path):
     print("###########")
 
     return final_config
+
+def parse_variable_ids(raw: str) -> list[str]:
+    """Parse user text such as "['expc', 'o2']", "expc, o2" or "expc"."""
+    raw = raw.strip()
+    if not raw:
+        raise ValueError("Input is empty.")
+
+    if raw.startswith(("[", "(", "{")):
+        try:
+            parsed = ast.literal_eval(raw)
+        except (ValueError, SyntaxError) as exc:
+            raise ValueError(f"Could not parse as a Python list: {exc}") from exc
+    else:
+        parsed = [item.strip().strip("'\"") for item in raw.split(",")]
+
+    if isinstance(parsed, str):
+        parsed = [parsed]
+    if not isinstance(parsed, (list, tuple, set)):
+        raise ValueError(f"Expected a list of strings, got {type(parsed).__name__}.")
+    if not all(isinstance(v, str) and v.strip() for v in parsed):
+        raise ValueError("Every variable_id must be a non-empty string.")
+
+    # Normalise and de-duplicate, preserving order
+    return list(dict.fromkeys(v.strip() for v in parsed))
+
+
+def find_invalid_variables(requested, allowed):
+    """Return {invalid_name: [close matches]} for names not in `allowed`."""
+    allowed = list(allowed)
+    return {
+        v: difflib.get_close_matches(v, allowed, n=3, cutoff=0.6)
+        for v in requested
+        if v not in allowed
+    }
+
+
+def prompt_for_variable_ids(allowed) -> list[str]:
+    allowed = sorted(allowed)
+    while True:
+        raw = input(
+            "No variable_id values were provided in search_criteria.toml.\n"
+            "Please enter a list of strings for variable_id. "
+            "E.g. ['expc'] or multiple ['expc', 'o2', 'thetao'].\n"
+            "Type '?' (then Enter) to list all supported variable_ids:\n"
+        )
+
+        if raw.strip().lower() in {"?", "help", "list"}:
+            print_variable_list(allowed)
+            continue
+
+        try:
+            requested = parse_variable_ids(raw)
+        except ValueError as exc:
+            print(f"Invalid input: {exc} Please try again.\n")
+            continue
+
+        invalid = find_invalid_variables(requested, allowed)
+        if invalid:
+            for name, suggestions in invalid.items():
+                hint = f" Did you mean {suggestions}?" if suggestions else ""
+                print(f"'{name}' is not a supported variable.{hint}")
+            print("Please try again.\n")
+            continue
+
+        print(f"User entered variable_ids: {requested}")
+        return requested
+
+
+def format_variable_list(variables, indent: int = 2, gap: int = 3) -> str:
+    """Return the variables as sorted, aligned columns sized to the terminal."""
+    names = sorted(set(variables))
+    if not names:
+        return "(no variables available)"
+
+    term_width = shutil.get_terminal_size(fallback=(100, 24)).columns
+    col_width = max(len(n) for n in names) + gap
+    n_cols = max(1, (term_width - indent) // col_width)
+    n_rows = -(-len(names) // n_cols)  # ceiling division
+
+    # Fill column by column so the list reads alphabetically downwards
+    lines = []
+    for r in range(n_rows):
+        row = names[r::n_rows]
+        lines.append(" " * indent + "".join(n.ljust(col_width) for n in row).rstrip())
+    return "\n".join(lines)
+
+
+def print_variable_list(variables) -> None:
+    names = sorted(set(variables))
+    header = f"{len(names)} supported variable_ids"
+    print(f"\n{header}\n{'-' * len(header)}")
+    print(format_variable_list(names))
+    print()
 
 
 def append_cols(PandasDataFrame):
