@@ -187,8 +187,14 @@ DFCombinedPiAnchors = pd.DataFrame(columns=DicDataframePiAnchors['search_results
 # =========== ================= ======== #
 
 if combine.lower().strip(" ") in ['y', 'yes']:
-    input_chosen = input(f"Enter which variables from the search {DicDataframeSearches['variable_names']} to combine in the form ['var1', 'var2', 'varN']:")
-    input_chosen = eval(input_chosen)
+    input_chosen = prompt_for_variable_ids(DicDataframeSearches['variable_names'],
+        message=(
+            f"Enter which variables from the search "
+            f"{DicDataframeSearches['variable_names']} to combine "
+            "in the form ['var1', 'var2', 'varN'] "
+            "(or type '?' to list them):\n"
+        ),
+    )
 
     chosen_vars = input_chosen ## bundle chosen vars
     loglabelstr = ""
