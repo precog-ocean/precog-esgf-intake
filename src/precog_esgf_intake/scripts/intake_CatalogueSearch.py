@@ -1,6 +1,6 @@
 """
-Sweep across the ESGF metagrid for desired ocean variables and test PI
-and Historical run alignment and shortlists for cases where both PI and Historical have both
+Sweep across the ESGF metagrid for desired ocean variables and test piControl
+and Historical run alignment and shortlists for cases where both piControl and Historical have both
 direct carbon export outputs (expc and epc100) or auxiliary vars (thetao, o2 and so).
 
 """
@@ -70,16 +70,18 @@ if search_criteria_toml.is_file():
     # overwrite the defaults with TOML-defined values
     DefaultSearchParam.update(config_search["search"])
 
+########################################################
+##### -------FAILSAFE CHECK FOR VARIABLE IDS -------####
+########################################################
+
+root_proj = os.path.dirname(os.path.abspath(__name__))
+variables_of_interest = import_ocean_std_names(root_proj)
+
 # if variable list is still empty, prompt user interactively
 if len(DefaultSearchParam["variable_id"]) == 0:
-    var = input(
-        "No variable_id values were provided in search_criteria.toml.\n"
-        "Please enter a list of strings for variable_id. "
-        "E.g. ['expc'] or multiple ['expc', 'o2', 'thetao', 'so', 'o2sat', 'epc100']:\n"
-    )
-    var = var.strip(" ")
-    print(f"User entered variable_ids: {var}")
-    DefaultSearchParam["variable_id"] = ast.literal_eval(var)
+    DefaultSearchParam["variable_id"] = prompt_for_variable_ids(variables_of_interest)
+
+########################################################
 
 print("======== Running ESGF search with the following resolved criteria ======== ")
 for key, value in DefaultSearchParam.items():
@@ -88,10 +90,6 @@ print("====================================================================\n")
 
 variable_ids = DefaultSearchParam["variable_id"]
 experiments_must_haves = DefaultSearchParam["experiment_id"]
-
-root_proj = os.path.dirname(os.path.abspath(__name__))
-
-variables_of_interest = import_ocean_std_names(root_proj)
 DicDataframeSearches = {'variable_names': [], 'search_results':[]} #initializing empty dic to facilitate saving data
 DicDataframePiAnchors = {'variable_names': [],'search_results': []}
 ##
@@ -175,8 +173,10 @@ print("=========================================================================
 
 #########################
 print('Now checking if we have complete piControl and Historical runs and consistent availability of grids...')
-combine=input("Would you like perform a 'union' validation to check for PI and Historical runs for > 1 ocean variable?\n"
-              "This is equivalent to searching for CMIP6 models that have (var1 & var2 & varN) for both PI and Historical runs. Type [y/n]:")
+combine=input("Would you like perform a 'union' validation to check for piControl and Historical runs for > 1 ocean "
+              "variable?\n"
+              "This is equivalent to searching for CMIP6 models that have (var1 & var2 & varN) for both piControl and "
+              "Historical runs. Type [y/n]:")
 
 #Initializing dataframe objects
 DFCombined = pd.DataFrame(columns=DicDataframeSearches['search_results'][0].columns)
@@ -187,8 +187,14 @@ DFCombinedPiAnchors = pd.DataFrame(columns=DicDataframePiAnchors['search_results
 # =========== ================= ======== #
 
 if combine.lower().strip(" ") in ['y', 'yes']:
-    input_chosen = input(f"Enter which variables from the search {DicDataframeSearches['variable_names']} to combine in the form ['var1', 'var2', 'varN']:")
-    input_chosen = eval(input_chosen)
+    input_chosen = prompt_for_variable_ids(DicDataframeSearches['variable_names'],
+        message=(
+            f"Enter which variables from the search "
+            f"{DicDataframeSearches['variable_names']} to combine "
+            "in the form ['var1', 'var2', 'varN'] "
+            "(or type '?' to list them):\n"
+        ),
+    )
 
     chosen_vars = input_chosen ## bundle chosen vars
     loglabelstr = ""
@@ -228,7 +234,8 @@ if combine.lower().strip(" ") in ['y', 'yes']:
         models_to_discard, model_DF_test_grids_concatenated, df_downloadable = catalog_traverser(logger, DFCombined, chosen_vars)
 
     models_to_keep = df_downloadable['source_id'].unique().tolist()
-    logger.info(f"Models with complete PI and Historical runs for {chosen_vars} in at least one consistent grid ('gn' or 'gr'):")
+    logger.info(f"Models with complete piControl and Historical runs for {chosen_vars} in at least one consistent "
+                f"grid ('gn' or 'gr'):")
     for model in sorted(models_to_keep):
         logger.info(model)
     logger.info('########=END OF CATALOGUE SEARCH =#######')
@@ -258,7 +265,8 @@ else:
 
         ## then pass to catalogue traverser
         logger = instantiate_logging_file(logfilename + '_' + loglabelstr + f"_{today}.txt", logger_name=loglabelstr)
-        logger.info(f"User chose not to combine. Checking individual variables for PI and Historical run consistency and availability of grids...")
+        logger.info(f"User chose not to combine. Checking individual variables for piControl and Historical run "
+                    f"consistency and availability of grids...")
         logger.info(f"###### Testing {oceanvarname} next ######")
 
         # =========== ENSEMBLE MODE   ======== #
