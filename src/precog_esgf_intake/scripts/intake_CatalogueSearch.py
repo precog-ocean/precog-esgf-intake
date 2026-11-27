@@ -70,16 +70,18 @@ if search_criteria_toml.is_file():
     # overwrite the defaults with TOML-defined values
     DefaultSearchParam.update(config_search["search"])
 
+########################################################
+##### -------FAILSAFE CHECK FOR VARIABLE IDS -------####
+########################################################
+
+root_proj = os.path.dirname(os.path.abspath(__name__))
+variables_of_interest = import_ocean_std_names(root_proj)
+
 # if variable list is still empty, prompt user interactively
 if len(DefaultSearchParam["variable_id"]) == 0:
-    var = input(
-        "No variable_id values were provided in search_criteria.toml.\n"
-        "Please enter a list of strings for variable_id. "
-        "E.g. ['expc'] or multiple ['expc', 'o2', 'thetao', 'so', 'o2sat', 'epc100']:\n"
-    )
-    var = var.strip(" ")
-    print(f"User entered variable_ids: {var}")
-    DefaultSearchParam["variable_id"] = ast.literal_eval(var)
+    DefaultSearchParam["variable_id"] = prompt_for_variable_ids(variables_of_interest)
+
+########################################################
 
 print("======== Running ESGF search with the following resolved criteria ======== ")
 for key, value in DefaultSearchParam.items():
@@ -175,8 +177,10 @@ print("=========================================================================
 
 #########################
 print('Now checking if we have complete piControl and Historical runs and consistent availability of grids...')
-combine=input("Would you like perform a 'union' validation to check for PI and Historical runs for > 1 ocean variable?\n"
-              "This is equivalent to searching for CMIP6 models that have (var1 & var2 & varN) for both PI and Historical runs. Type [y/n]:")
+combine=input("Would you like perform a 'union' validation to check for piControl and Historical runs for > 1 ocean "
+              "variable?\n"
+              "This is equivalent to searching for CMIP6 models that have (var1 & var2 & varN) for both piControl and "
+              "Historical runs. Type [y/n]:")
 
 #Initializing dataframe objects
 DFCombined = pd.DataFrame(columns=DicDataframeSearches['search_results'][0].columns)
