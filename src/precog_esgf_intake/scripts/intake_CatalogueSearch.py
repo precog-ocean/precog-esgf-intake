@@ -1,6 +1,6 @@
 """
-Sweep across the ESGF metagrid for desired ocean variables and test PI
-and Historical run alignment and shortlists for cases where both PI and Historical have both
+Sweep across the ESGF metagrid for desired ocean variables and test piControl
+and Historical run alignment and shortlists for cases where both piControl and Historical have both
 direct carbon export outputs (expc and epc100) or auxiliary vars (thetao, o2 and so).
 
 """
@@ -228,7 +228,8 @@ if combine.lower().strip(" ") in ['y', 'yes']:
         models_to_discard, model_DF_test_grids_concatenated, df_downloadable = catalog_traverser(logger, DFCombined, chosen_vars)
 
     models_to_keep = df_downloadable['source_id'].unique().tolist()
-    logger.info(f"Models with complete PI and Historical runs for {chosen_vars} in at least one consistent grid ('gn' or 'gr'):")
+    logger.info(f"Models with complete piControl and Historical runs for {chosen_vars} in at least one consistent "
+                f"grid ('gn' or 'gr'):")
     for model in sorted(models_to_keep):
         logger.info(model)
     logger.info('########=END OF CATALOGUE SEARCH =#######')
@@ -258,7 +259,8 @@ else:
 
         ## then pass to catalogue traverser
         logger = instantiate_logging_file(logfilename + '_' + loglabelstr + f"_{today}.txt", logger_name=loglabelstr)
-        logger.info(f"User chose not to combine. Checking individual variables for PI and Historical run consistency and availability of grids...")
+        logger.info(f"User chose not to combine. Checking individual variables for piControl and Historical run "
+                    f"consistency and availability of grids...")
         logger.info(f"###### Testing {oceanvarname} next ######")
 
         # =========== ENSEMBLE MODE   ======== #
